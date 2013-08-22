@@ -20,7 +20,7 @@ Class InstantOrder extends Module{
 
 	public function install(){
 		
-		if(pareint::install() == false){
+		if(parent::install() == false){
 			return false;
 		}
 		return true;
