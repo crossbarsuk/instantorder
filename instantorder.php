@@ -20,10 +20,7 @@ Class InstantOrder extends Module{
 
 	public function install(){
 		
-		if(pareint::install() == false){
-			return false;
-		}
-		return true;
+		return parent::install() && $this->registerHook('actionOrderStatusUpdate') $this->registerHook('actionProductDelete');
 	}
 
 	public function uninstall(){
@@ -31,5 +28,15 @@ Class InstantOrder extends Module{
 		if (!parent::uninstall())
 		Db::getInstance()->Execute('DELETE FROM `'._DB_PREFIX_.'mymodule`');
 		parent::uninstall();
+	}
+
+	public function hookActionOrderStatusUpdate($params){
+		global $smarty;
+		return $this->display(__FILE__, 'instantorder.tpl');
+	}
+
+	public function hookActionProductDelete($params){
+		global $smarty;
+		return $this->display(__FILE__, 'instantorder.tpl');
 	}
 }
