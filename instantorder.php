@@ -21,6 +21,7 @@ Class InstantOrder extends Module{
 	public function install(){
 		
 		return parent::install() && $this->registerHook('actionOrderStatusUpdate') $this->registerHook('actionProductDelete');
+
 	}
 
 	public function uninstall(){
