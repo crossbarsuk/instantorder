@@ -20,7 +20,7 @@ Class InstantOrder extends Module{
 
 	public function install(){
 		
-		return parent::install() && $this->registerHook('actionOrderStatusUpdate') $this->registerHook('actionProductDelete');
+		return parent::install() && $this->registerHook('actionOrderStatusUpdate') && $this->registerHook('actionProductDelete');
 
 	}
 
@@ -31,13 +31,29 @@ Class InstantOrder extends Module{
 		parent::uninstall();
 	}
 
+	public function getContent(){
+
+	}
+	
 	public function hookActionOrderStatusUpdate($params){
+		
 		global $smarty;
+		var_dump($params);
+		$r = new HttpRequest('http://localhost/MexicanMonkey/index.php', HttpRequest::METH_POST);
+		$r->setOptions(array('cookies' => array('lang' => 'de')));
+		$r->addPostFields(array('user' => 'mike', 'pass' => 's3c|r3t'));
+		$r->addPostFile('image', 'profile.jpg', 'image/jpeg');
+		try {
+    		echo $r->send()->getBody();
+		}catch (HttpException $ex) {
+    	echo $ex;
+   		 }
 		return $this->display(__FILE__, 'instantorder.tpl');
 	}
 
 	public function hookActionProductDelete($params){
 		global $smarty;
+		var_dump($params);
 		return $this->display(__FILE__, 'instantorder.tpl');
 	}
 }
