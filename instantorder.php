@@ -20,7 +20,7 @@ Class InstantOrder extends Module{
 
 	public function install(){
 		
-		return parent::install() && $this->registerHook('actionOrderStatusUpdate') && $this->registerHook('actionProductDelete');
+		return parent::install() && $this->registerHook('actionValidateOrder') && $this->registerHook('actionProductDelete');
 
 	}
 
@@ -35,14 +35,15 @@ Class InstantOrder extends Module{
 
 	}
 	
-	public function hookActionOrderStatusUpdate($params){
+	public function hookActionValidateOrder($params){
 		
 		global $smarty;
-		var_dump($params);
+		var_dump($params['id']);
 		$r = new HttpRequest('http://localhost/MexicanMonkey/index.php', HttpRequest::METH_POST);
-		$r->setOptions(array('cookies' => array('lang' => 'de')));
-		$r->addPostFields(array('user' => 'mike', 'pass' => 's3c|r3t'));
-		$r->addPostFile('image', 'profile.jpg', 'image/jpeg');
+		//$r->setOptions(array('cookies' => array('lang' => 'de')));
+		//$r->addPostFields(array('user' => 'mike', 'pass' => 's3c|r3t'));
+		//$r->addPostFile('image', 'profile.jpg', 'image/jpeg');
+		$r->addPostFields(array('from' => 'mike', 'to' => 's3c|r3t', 'origin' => 's3c|r3t', 'key' => 's3c|r3t'));
 		try {
     		echo $r->send()->getBody();
 		}catch (HttpException $ex) {
@@ -53,7 +54,6 @@ Class InstantOrder extends Module{
 
 	public function hookActionProductDelete($params){
 		global $smarty;
-		var_dump($params);
 		return $this->display(__FILE__, 'instantorder.tpl');
 	}
 }
